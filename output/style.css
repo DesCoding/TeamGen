@@ -1,15 +1,17 @@
-  
 .team-heading {
-    background-color: rgb(66, 1, 104);
-    color: cornsilk;
+  background-color: rgb(1, 92, 104);
+  color: rgb(235, 231, 231);
 }
 .card {
-    margin: 5px;
-    border-radius: 15px;
-  
-    
+  margin: 5px;
+  border-radius: 10px;
 }
 
-.my-container{
-    width: auto;
+.card-header {
+    background-color: rgb(168, 237, 240);
+}
+
+.container {
+  width: auto;
+
 }
