@@ -10,6 +10,8 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+const myEmployees = [];
+
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
@@ -26,11 +28,173 @@ const teamQuestions = () => {
             type: "input",
             name: "email",
             message: "What is your e-mail address?"
-        }
 
-    ])
+            validate: function (email) {
+        
+                valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+
+                if (valid) {
+                 return true;
+                } else {
+                    console.log(".  Please enter a valid email")
+                    return false;
+            }
+        }
+    },
+        {
+            type: "number",
+            name: "officeNumber",
+            message: "What is your office number?"
+        }
+    ]);
 }
 
+const engineerQuestions = () => {
+    return inquirer.prompt([
+
+    {
+    type: "input",
+    name: "name",
+    message: "What is your Engineer's name? "
+    },
+    {
+    type: "number",
+    name: "id",
+    message: "What is your Engineer's ID number? "
+    },
+    {
+    type: "input",
+    name: "email",
+    message: "What is your Engineer's Email? ",
+    default: () => { },
+    validate: function (email) {
+
+        valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+
+        if (valid) {
+            return true;
+        } else {
+            console.log(".  Please enter a valid email")
+            return false;
+        }
+    }
+    },
+    {
+    type: "input",
+    name: "github",
+    message: "Please enter your Engineer's GitHub user name: "
+    },
+    {
+    type: "confirm",
+    name: "addEngineer",
+    message: "Would you like to add another Engineer?"
+    },
+    ]);
+    };
+
+    const internQuestions = () => {
+    return inquirer.prompt([
+
+    {
+        type: "input",
+        name: "name",
+        message: "What is your Intern's name? "
+    },
+    {
+        type: "number",
+        name: "id",
+        message: "What is your Intern's ID number? "
+    },
+    {
+        type: "input",
+        name: "email",
+        message: "What is your Intern's Email? ",
+        default: () => { },
+        validate: function (email) {
+
+            valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)
+
+            if (valid) {
+                return true;
+            } else {
+                console.log(".  Please enter a valid email")
+                return false;
+            }
+        }
+    },
+    {
+        type: "input",
+        name: "school",
+        message: "Please enter your Intern's school: "
+    },
+    {
+        type: "confirm",
+        name: "addIntern",
+        message: "Would you like to add another Intern?"
+    },
+    ]);
+    };
+
+
+    teamQuestions().then((answers) => {
+    const manager = new Manager(answers.name, 1, answers.email, answers.officeNumber);
+    myEmployees.push(manager);
+    console.log("----- ENGINEERS -----")
+
+    engineerQuestions().then((answers) => {
+    saveEngineer(answers);
+
+    });
+    });
+
+
+
+
+    const saveEngineer = (answers) => {
+    // const engineer = new Engineer(answers.name, answers.id, answers.email, answers.github);
+    myEmployees.push(new Engineer(answers.name, answers.id, answers.email, answers.github))
+    // console.log(engineer);
+    if(answers.addEngineer){
+    engineerQuestions().then((answers) => {
+    saveEngineer(answers);
+    });
+    } else {
+    // console.log(myEmployees);
+    console.log("----- INTERS -----");
+
+    internQuestions().then((answers) => {
+    saveIntern(answers);
+
+    });
+    }
+    };
+
+
+
+
+
+    const saveIntern = (answers) => {
+
+    myEmployees.push(new Intern(answers.name, answers.id, answers.email, answers.school))
+
+    if(answers.addIntern){
+    internQuestions().then((answers) => {
+    saveIntern(answers);
+    });
+    } else {
+    // console.log(myEmployees);
+    fs.writeFile(outputPath, render(myEmployees), function(err) {
+
+    if (err) {
+        return console.log(err);
+    }
+
+    console.log("Success! your page has been created!");
+
+    });
+    return
+    }
+    };
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
