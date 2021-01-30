@@ -18,7 +18,10 @@ TeamGen is a Node Command Line Application that collects information about emplo
 GitHub Repo - https://github.com/DesCoding/TeamGen
 
 # Demo
+
 ![Demo](Assets/gifhere.gif)
+
+![Demo](Assets/TeamDemo.png)
 
 # MIT License
 
