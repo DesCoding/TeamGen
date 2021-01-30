@@ -19,7 +19,7 @@ GitHub Repo - https://github.com/DesCoding/TeamGen
 
 # Demo
 
-![Demo](Assets/gifhere.gif)
+![Demo](Assets/TeamGenDemo.gif)
 
 ![Demo](Assets/TeamDemo.png)
 
